@@ -5,30 +5,7 @@ tags:
   load_all: true
   exclude: [note, "note:*", source, source_ref, "source:*", attribution, comment, fixme, created_by, odbl, "odbl:note", "SK53_bulk:load",  "tiger:*",  "NHD:*", "nhd:*",  "gnis:*",  "geobase:*", "accuracy:meters", "sub_sea:type", "waterway:type",  "KSJ2:*", "yh:*",  "osak:*",  "kms:*",  "ngbe:*",  "naptan:*",  "CLC:*",  "3dshapes:ggmodelk", AND_nosr_r, import, "it:fvg:*"]
 tables:
-  roads:
-    type: geometry
-    type_mappings:
-      linestrings:
-        boundary: [__any__]
-      polygons:
-        boundary: [__any__]
-    # mapping:
-    #   boundary: [__any__]
-    columns:
-      - name: osm_id
-        type: id
-      - name: way
-        type: geometry
-      - key: admin_level
-        name: admin_level
-        type: string
-      - key: boundary
-        name: boundary
-        type: string
-      - key: tags
-        name: tags
-        type: hstore_tags
-  point:
+  planet_osm_point:
     type: point
     mapping:
       __any__: [__any__]
@@ -61,7 +38,7 @@ tables:
         type: hstore_tags
       - name: way
         type: geometry
-  polygon:
+  planet_osm_polygon:
     type: polygon
     mapping:
       __any__: [__any__]
@@ -111,27 +88,53 @@ tables:
         type: enumerate
         args:
           values:
-            - national_park
-            - bus_stop
-            - station
-            - tram_stop
-            - stop_position
-            - national_reserve
+            - land
+            - island
+            - lan
+            - heath
+            - railway
+            - industrial
+            - commercial
+            - retail
+            - residential
+            - quarry
+            - zoo
+            - vineyard
+            - orchard
+            - scrub
+            - hospital
+            - place_of_worship
+            - theatre
+            - cinema
             - nature_reserve
-            - golf_course
-            - park
-            - playground
-            - ferry_terminal
+            - parking
+            - fuel
+            - baracks
+            - library
+            - college
             - school
             - university
-            - hospital
-            - reservoir
-            - pond
-            - industrial
+            - golf_course
+            - allotments
+            - common
+            - pitch
+            - sports_centre
+            - garden
+            - recreation_ground
             - village_green
-            - forest
+            - wetland
+            - grass
+            - meadow
             - wood
+            - farmland
+            - farm
+            - farmyard
             - cemetery
+            - forest
+            - park
+            - playground
+            - footway
+            - pedestrian
             - water
       - key: way_area
         name: way_area
@@ -141,7 +144,7 @@ tables:
         type: hstore_tags
       - name: way
         type: geometry
-  line:
+  planet_osm_line:
     type: linestring
     mapping:
       __any__: [__any__]
@@ -183,124 +186,41 @@ tables:
       - key: z_order
         name: z_order
         type: wayzorder
-
-#landuse:
-#  type: polygon
-#  mapping:
-#    landuse:
-#    - railway
-#    - cemetery
-#    - military
-#    # zoning
-#    - residential
-#    - commercial
-#    - industrial
-#    - garages
-#    - retail
-#    amenity:
-#    - bus_station
-#    - school
-#    - university
-#    - kindergarten
-#    - college
-#    - library
-#    - hospital
-#    leisure:
-#    - stadium
-#    - pitch
-#    - playground
-#    - track
-#    tourism:
-#    - theme_park
-#    - zoo
-#    place:
-#    - suburb
-#    - neighbourhood
-#    waterway:
-#    - dam
-#  - name: osm_id
-#    type: id
-#  - key: aeroway
-#    name: aeroway
-#    type: string
-#  - key: amenity
-#    name: amenity
-#    type: string
-#  - key: area
-#    name: area
-#    type: string
-#  - key: building
-#    name: building
-#    type: string
-#  - key: boundary
-#    name: boundary
-#    type: string
-#  - key: highway
-#    name: highway
-#    type: string
-#  - key: landuse
-#    name: landuse
-#    type: string
-#  - key: leisure
-#    name: leisure
-#    type: string
-#  - key: name
-#    name: name
-#    type: string
-#  - key: natural
-#    name: natural
-#    type: string
-#  - key: public_transport
-#    name: public_transport
-#    type: string
-#  - key: railway
-#    name: railway
-#    type: string
-#  - key: waterway
-#    name: waterway
-#    type: string
-#  - name: z_order
-#    type: enumerate
-#    args:
-#      values:
-#        - national_park
-#        - bus_stop
-#        - station
-#        - tram_stop
-#        - stop_position
-#        - national_reserve
-#        - nature_reserve
-#        - golf_course
-#        - park
-#        - playground
-#        - ferry_terminal
-#        - school
-#        - university
-#        - hospital
-#        - reservoir
-#        - pond
-#        - industrial
-#        - village_green
-#        - forest
-#        - wood
-#        - cemetery
-#        - water
-#  - key: way_area
-#    name: way_area
-#    type: area
-#  - key: tags
-#    name: tags
-#    type: hstore_tags
-#  - name: way
-#    type: geometry
-#waterway:
-#water:
-#aeroway:
-#building:
-#road:
-#admin:
-#country_label:
-#place_label:
-#poi_label:
-#road_label:
+  admin:
+    type: relation_member
+    mapping:
+      __any__: [__any__]
+    columns:
+      - name: relation_id
+        type: id
+      - name: osm_id
+        type: id
+        from_member: true
+      - name: way
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - key: boundary
+        name: boundary
+        type: string
+      - key: admin_level
+        name: admin_level
+        type: string
+      - key: claimed_by
+        name: claimed_by
+        type: string
+      - key: disputed_by
+        name: disputed_by
+        type: string
+      - key: maritime
+        name: maritime
+        type: bool
+        from_member: true
+      - key: tags
+        name: tags
+        type: hstore_tags
+    filters:
+      require:
+        admin_level: ['2', '4']
 
