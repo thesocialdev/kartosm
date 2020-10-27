@@ -1,7 +1,7 @@
 {
     "cachedir": "/srv/kartosm/cache",
     "diffdir": "/srv/kartosm/diff",
-    "connection": "postgis://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:5432/$POSTGRES_DB?prefix=NONE",
+    "connection": "postgis://$PGUSER:$PGPASSWORD@postgres-postgis:5432/$PGDATABASE?prefix=NONE",
     "mapping": "/srv/kartosm/mapping.yml",
     "replication_url": "http://planet.openstreetmap.org/replication/day/",
     "replication_interval": "24h"
